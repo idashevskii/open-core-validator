@@ -9,18 +9,14 @@ use OpenCore\Validator\ValidationRule;
 use Attribute;
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Between extends ValidationRule {
+class StringType extends ValidationRule {
 
-  protected static ?string $name = 'between';
-
-  public function __construct(float|int $min, float|int $max) {
-    parent::__construct(options: ['min' => $min, 'max' => $max]);
-  }
+  protected static ?string $name = 'string';
 
   public function evaluate(mixed $data): ValidationResult {
-    if (!is_numeric($data)) {
+    if (!is_string($data)) {
       return ValidationResult::invalidFor($this);
     }
-    return Helpers::validateValueBetween($this, $data + 0);
+    return ValidationResult::validFor($this);
   }
 }
