@@ -8,7 +8,7 @@ final class Helpers {
     return $data === null;
   }
 
-  public static function validateValueBetween(ValidationRule $rule, mixed $value) {
+  public static function validateValueBetween(ValidationRule $rule, float|int $value) {
     ['min' => $min, 'max' => $max] = $rule->options;
     $valid = ($value >= $min) && ($value <= $max);
     return new ValidationResult($valid, $rule);
