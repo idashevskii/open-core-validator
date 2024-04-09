@@ -13,7 +13,8 @@ class BoolType extends ValidationRule {
   protected static ?string $name = 'bool';
 
   public function evaluate(mixed $data): ValidationResult {
-    if (!is_bool($data)) {
+    $valid = is_bool($data) || $data === '1' || $data === '';
+    if (!$valid) {
       return ValidationResult::invalidFor($this);
     }
     return ValidationResult::validFor($this);

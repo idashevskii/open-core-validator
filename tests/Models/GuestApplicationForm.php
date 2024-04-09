@@ -41,7 +41,7 @@ class GuestApplicationForm {
   #[Key('q0', [new Optional([new LenBetween(0, 16)])])]
   #[Key('q1', [new Optional([new LenBetween(0, 16)])])]
   #[Key('q2', [new LenBetween(1, 32)])]
-  #[Key('q3', [new Between(0, 100)])]
+  #[Key('q3', [new Between(-100, 100)])]
   #[Arr(Type::MIXED)]
   public array $survey;
 }

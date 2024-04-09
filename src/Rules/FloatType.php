@@ -13,7 +13,7 @@ class FloatType extends ValidationRule {
   protected static ?string $name = 'float';
 
   public function evaluate(mixed $data): ValidationResult {
-    if (!is_float($data)) {
+    if (!is_numeric($data)) {
       return ValidationResult::invalidFor($this);
     }
     return ValidationResult::validFor($this);

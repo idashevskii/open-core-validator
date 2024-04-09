@@ -47,7 +47,7 @@ final class ValidatorTest extends TestCase {
       'acceptTerms' => true,
       'email' => 'user@example.com',
       'interests' => ['music', 'movie'],
-      'survey' => ['q1' => 'yes', 'q2' => 'I dont know', 'q3' => '42'],
+      'survey' => ['q1' => 'yes', 'q2' => 'I dont know', 'q3' => '-42'],
     ];
 
     $actual = Validator::deserialize(GuestApplicationForm::class, $userInput);
@@ -58,7 +58,7 @@ final class ValidatorTest extends TestCase {
     $expected->interests = ['music', 'movie'];
     $expected->nestedArrs = [[['a1'], ['a2']], [['a3'], ['a4']]];
     $expected->phone = '+000 123-456-789';
-    $expected->survey = ['q1' => 'yes', 'q2' => 'I dont know', 'q3' => 42];
+    $expected->survey = ['q1' => 'yes', 'q2' => 'I dont know', 'q3' => -42];
     $expected->userExtraLogins = [LoginApplicationForm::create('extraLogin1<p>\0', '<script>\0')];
     $expected->acceptTerms = true;
 

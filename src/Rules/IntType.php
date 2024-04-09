@@ -13,7 +13,14 @@ class IntType extends ValidationRule {
   protected static ?string $name = 'int';
 
   public function evaluate(mixed $data): ValidationResult {
-    if (!is_int($data)) {
+    if (is_int($data)) {
+      $valid = true;
+    } else if (is_string($data)) {
+      $valid = $data === (string)((int)$data);
+    } else {
+      $valid = false;
+    }
+    if (!$valid) {
       return ValidationResult::invalidFor($this);
     }
     return ValidationResult::validFor($this);
