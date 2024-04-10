@@ -20,4 +20,29 @@ final class ValidationResult {
     return new static(false, $rule);
   }
 
+  public function inspect(): array {
+    $ret = [];
+    $inspectRec = static function (array $prefix, ValidationResult $vr) use (&$ret, &$inspectRec) {
+      if ($vr->children) {
+        foreach ($vr->children as $childVr) {
+          /** @var ValidationResult $childVr */
+          if ($childVr->valid) {
+            continue;
+          }
+          $index = $childVr->rule->getIndex();
+          $childPrefix = $index !== null ? array_merge($prefix, [$index]) : $prefix;
+          $inspectRec($childPrefix, $childVr);
+        }
+      } else {
+        $rule = $vr->rule;
+        $details = $vr->rule->getDetails();
+        $ret[implode('/', $prefix)][] = ['rule' => $rule->getName()] + ($details ? ['details' => $details] : []);
+      }
+    };
+
+    if (!$this->valid) {
+      $inspectRec([], $this);
+    }
+    return $ret;
+  }
 }

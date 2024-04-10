@@ -17,6 +17,10 @@ class CountBetween extends ValidationRule {
     parent::__construct(options: ['min' => $min, 'max' => $max]);
   }
 
+  public function getDetails(): array|null {
+    return $this->options;
+  }
+
   public function evaluate(mixed $data): ValidationResult {
     if (!is_array($data)) {
       return ValidationResult::invalidFor($this);

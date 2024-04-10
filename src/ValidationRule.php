@@ -22,6 +22,10 @@ abstract class ValidationRule {
     return null;
   }
 
+  public function getDetails(): array|null {
+    return null;
+  }
+
   public function getName(): string {
     return $this->instanceName ?? static::$name;
   }

@@ -324,6 +324,38 @@ final class ValidatorTest extends TestCase {
     ]);
 
     $this->assertEquals([
+      "login" => [
+        ["rule" => "lenBetween", "details" => ["min" => 0, "max" => 3]],
+      ],
+      "password" => [["rule" => "required"]],
+      "acceptTerms" => [["rule" => "required"]],
+      "email" => [
+        ["rule" => "lenBetween", "details" => ["min" => 0, "max" => 3]],
+        ["rule" => "email"],
+      ],
+      "phone" => [
+        ["rule" => "lenBetween", "details" => ["min" => 5, "max" => 8]],
+      ],
+      "interests" => [
+        ["rule" => "countBetween", "details" => ["min" => 0, "max" => 1]],
+      ],
+      "interests/0" => [
+        ["rule" => "lenBetween", "details" => ["min" => 2, "max" => 3]],
+      ],
+      "interests/1" => [
+        ["rule" => "lenBetween", "details" => ["min" => 2, "max" => 3]],
+      ],
+      "survey/q0" => [["rule" => "required"]],
+      "survey/q1" => [["rule" => "required"]],
+      "survey/q2" => [
+        ["rule" => "lenBetween", "details" => ["min" => 16, "max" => 32]],
+      ],
+      "survey/q3" => [
+        ["rule" => "between", "details" => ["min" => 100, "max" => 100]],
+      ],
+    ], $res->inspect());
+
+    $this->assertEquals([
       "all" => [false, [
         "key[acceptTerms]" => [false, ["required" => false]],
         "key[email]" => [false, ["required" => [false, ["email" => false, "lenBetween" => false]]]],

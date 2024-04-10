@@ -17,6 +17,10 @@ class Between extends ValidationRule {
     parent::__construct(options: ['min' => $min, 'max' => $max]);
   }
 
+  public function getDetails(): array|null {
+    return $this->options;
+  }
+
   public function evaluate(mixed $data): ValidationResult {
     if (!is_numeric($data)) {
       return ValidationResult::invalidFor($this);

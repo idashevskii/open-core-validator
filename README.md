@@ -65,7 +65,7 @@ Validate data according to model:
 try{
   Validator::validateByModel(GuestApplicationForm::class, $userInput);
 }catch(ValidationException $ex){
-  // inspect $ex->result
+  print_r($ex->result->inspect());
 }
 ```
 
@@ -74,6 +74,6 @@ Or even deserialize data to object after validation:
 try{
   $form = Validator::deserialize(GuestApplicationForm::class, $userInput);
 }catch(ValidationException $ex){
-  // inspect $ex->result
+  print_r($ex->result->inspect());
 }
 ```
