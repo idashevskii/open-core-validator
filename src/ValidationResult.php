@@ -3,14 +3,11 @@
 namespace OpenCore\Validator;
 
 final class ValidationResult {
-
   public function __construct(
     public readonly bool $valid,
     public readonly ValidationRule $rule,
     public readonly ?array $children = null,
-  ) {
-
-  }
+  ) {}
 
   public static function validFor(ValidationRule $rule) {
     return new static(true, $rule);
@@ -20,7 +17,7 @@ final class ValidationResult {
     return new static(false, $rule);
   }
 
-  public function inspect(): array {
+  public function flatten(): array {
     $ret = [];
     $inspectRec = static function (array $prefix, ValidationResult $vr) use (&$ret, &$inspectRec) {
       if ($vr->children) {
@@ -34,14 +31,22 @@ final class ValidationResult {
           $inspectRec($childPrefix, $childVr);
         }
       } else {
-        $rule = $vr->rule;
-        $details = $vr->rule->getDetails();
-        $ret[implode('/', $prefix)][] = ['rule' => $rule->getName()] + ($details ? ['details' => $details] : []);
+        $ret[implode('/', $prefix)][] = $vr->rule;
       }
     };
-
     if (!$this->valid) {
       $inspectRec([], $this);
+    }
+    return $ret;
+  }
+
+  public function inspect(): array {
+    $ret = [];
+    foreach ($this->flatten() as $field => $rules) {
+      foreach ($rules as $rule) {
+        $details = $rule->getDetails();
+        $ret[$field][] = ['rule' => $rule->getName()] + ($details ? ['details' => $details] : []);
+      }
     }
     return $ret;
   }
